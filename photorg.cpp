@@ -23,21 +23,45 @@ int main()
     // READ PATH CONFIG
     std::string path_file = "Path.ini";
     std::string source_folder;
+    bool yearly = false, monthly = false, daily = false;
     std::ifstream path_stream(path_file);
     if (path_stream.is_open())
     {
         std::string line;
-        std::getline(path_stream, line);
+        while (std::getline(path_stream, line))
+        {
+            // IGNORE WHITE SPACE
+            line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
 
-        // 공백 제거
-        line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
-
-        source_folder = line.substr(line.find("=") + 1);
+            if (line.find("YEARLY=") != std::string::npos)
+            {
+                std::string value = line.substr(line.find("=") + 1, std::string::npos);
+                std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+                yearly = (value == "true");
+            }
+            else if (line.find("MONTHLY=") != std::string::npos)
+            {
+                std::string value = line.substr(line.find("=") + 1, std::string::npos);
+                std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+                monthly = (value == "true");
+            }
+            else if (line.find("DAILY=") != std::string::npos)
+            {
+                std::string value = line.substr(line.find("=") + 1, std::string::npos);
+                std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+                daily = (value == "true");
+            }
+            else if (line.find("PATH=") != std::string::npos)
+            {
+                source_folder = line.substr(line.find("=") + 1, std::string::npos);
+            }
+        }
         path_stream.close();
+        std::cout << "[SUCCESS] DIRECTORY PATH FOUND!" << std::endl;
     }
     else
     {
-        std::cout << "Failed to open " << path_file << std::endl;
+        std::cout << "[ERROR] FAILED TO OPEN DIRECTORY" << path_file << std::endl;
         return 1;
     }
 
@@ -69,13 +93,34 @@ int main()
     for (const auto &[file, creation_time] : file_times)
     {
         std::tm *local_time = std::localtime(&creation_time);
-        std::string folder_name = std::to_string(local_time->tm_year + 1900) + "-" +
-                                  std::to_string(local_time->tm_mon + 1) + "-" +
-                                  std::to_string(local_time->tm_mday);
-        fs::path new_folder = fs::path(source_folder) / folder_name;
-        if (!fs::exists(new_folder))
+        std::string year_folder = std::to_string(local_time->tm_year + 1900);
+        std::string month_folder = std::to_string(local_time->tm_mon + 1);
+        std::string day_folder = std::to_string(local_time->tm_mday);
+
+        fs::path new_folder = fs::path(source_folder);
+        if (yearly)
         {
-            fs::create_directory(new_folder);
+            new_folder /= year_folder;
+            if (!fs::exists(new_folder))
+            {
+                fs::create_directory(new_folder);
+            }
+        }
+        if (monthly)
+        {
+            new_folder /= year_folder + "-" + month_folder;
+            if (!fs::exists(new_folder))
+            {
+                fs::create_directory(new_folder);
+            }
+        }
+        if (daily)
+        {
+            new_folder /= year_folder + "-" + month_folder + "-" + day_folder;
+            if (!fs::exists(new_folder))
+            {
+                fs::create_directory(new_folder);
+            }
         }
 
         // MOVE FILES TO DIRECTORY

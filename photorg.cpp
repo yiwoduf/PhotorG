@@ -7,16 +7,6 @@
  *
  * PhotorG - Photo Organizaer
  */
-
-/**
- * Jaeyol (Peter) Lee
- *
- * @yiwoduf
- *
- * yiwoduf@gmail.com
- *
- * PhotorG - Photo Organizaer
- */
 #include <algorithm>
 #include <chrono>
 #include <ctime>
@@ -87,6 +77,8 @@ int main() {
   // CREATE FOLDER BY DATE
   std::sort(file_times.begin(), file_times.end(),
             [](const auto &a, const auto &b) { return a.second < b.second; });
+  size_t total_files = file_times.size();
+  size_t moved_files = 0;
   for (const auto &[file, creation_time] : file_times) {
     std::tm *local_time = std::localtime(&creation_time);
     std::string year_folder = std::to_string(local_time->tm_year + 1900);
@@ -116,8 +108,8 @@ int main() {
     // MOVE FILES TO DIRECTORY
     fs::path new_file_path = new_folder / file.filename();
     fs::rename(file, new_file_path);
-    std::cout << "Moved [" << file.filename() << "] to [" << new_folder << "]"
-              << std::endl;
+    std::cout << "[" << ++moved_files << "/" << total_files << "] Moved ["
+              << file.filename() << "] to [" << new_folder << "]" << std::endl;
   }
 
   return 0;

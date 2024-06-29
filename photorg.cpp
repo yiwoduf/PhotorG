@@ -48,7 +48,8 @@ int main() {
       }
     }
     path_stream.close();
-    std::cout << "[SUCCESS] DIRECTORY PATH FOUND!" << std::endl;
+    std::cout << "\033[1m\033[32m[SUCCESS] DIRECTORY PATH FOUND!\033[0m"
+              << std::endl;
   } else {
     std::cout << "[ERROR] FAILED TO OPEN DIRECTORY" << path_file << std::endl;
     return 1;

@@ -108,9 +108,12 @@ int main() {
     // MOVE FILES TO DIRECTORY
     fs::path new_file_path = new_folder / file.filename();
     fs::rename(file, new_file_path);
-    std::cout << "[" << ++moved_files << "/" << total_files << "] Moved ["
-              << file.filename() << "] to [" << new_folder << "]" << std::endl;
+    std::cout << "\033[1m[" << ++moved_files << "/" << total_files
+              << "]\033[0m Moved [" << file.filename() << "] to [" << new_folder
+              << "]" << std::endl;
   }
+  std::cout << "\033[1m\033[32m[COMPLETE] ALL PHOTOS ORGANIZED!\033[0m"
+            << std::endl;
 
   return 0;
 }

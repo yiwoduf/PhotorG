@@ -18,6 +18,17 @@
 
 namespace fs = std::filesystem;
 
+/* Check File Extension Type */
+bool is_supported_image_format(const fs::path &file_path) {
+  std::vector<std::string> supported_extensions = {
+      ".jpg", ".jpeg", ".jfif", ".pjpeg", ".pjp", ".gif", ".png", ".heic"};
+  std::string extension = file_path.extension().string();
+  std::transform(extension.begin(), extension.end(), extension.begin(),
+                 ::tolower);
+  return std::find(supported_extensions.begin(), supported_extensions.end(),
+                   extension) != supported_extensions.end();
+}
+
 int main() {
   // READ PATH CONFIG
   std::string path_file = "Path.ini";
@@ -27,7 +38,7 @@ int main() {
   if (path_stream.is_open()) {
     std::string line;
     while (std::getline(path_stream, line)) {
-      // 공백 제거
+      // Remove White Space
       line.erase(std::remove_if(line.begin(), line.end(), ::isspace),
                  line.end());
 
@@ -58,8 +69,11 @@ int main() {
   // READ DIRECTORY
   std::vector<fs::path> files;
   for (const auto &entry : fs::directory_iterator(source_folder)) {
-    if (fs::is_regular_file(entry)) {
+    if (fs::is_regular_file(entry) && is_supported_image_format(entry.path())) {
       files.push_back(entry.path());
+    } else {
+      std::cout << "\033[1m\033[31m[SKIP] Not a picture format: "
+                << entry.path() << "\033[0m" << std::endl;
     }
   }
 

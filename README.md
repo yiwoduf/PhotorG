@@ -32,16 +32,20 @@ This will create an executable file named `photorg` in the current directory.
 
 Suppose the `Settings.ini` file contains the following configuration:
 
+```
 PATH = ./Photos
 YEARLY = true
 MONTHLY = true
 DAILY = true
+```
 
 When you run the `./photorg` command, the program will:
 
+```
 1. Scan the `./Photos` directory for all photo files.
 2. Organize the photos into directories based on the year, month, and day they were taken.
 3. Save the organized photos in the same `./Photos` directory.
+```
 
 This will result in a directory structure like this:
 

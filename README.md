@@ -2,6 +2,8 @@
 
 PhotorG is a C++ program that helps you organize your photos by the date they were created. It uses multi-threading to efficiently process and sort your photo collection.
 
+![PHOTORG](logo.png)
+
 ## Features
 
 - Automatically detects the creation date of each photo

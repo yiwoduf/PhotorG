@@ -45,6 +45,7 @@ When you run the `./photorg` command, the program will:
 
 This will result in a directory structure like this:
 
+```
 ./Photos
 ├── 2023
 │ ├── 2023-01
@@ -64,6 +65,7 @@ This will result in a directory structure like this:
 ├── 2024-02-01
 ├── 2024-02-02
 └── 2024-02-03
+```
 
 ## Contributing
 

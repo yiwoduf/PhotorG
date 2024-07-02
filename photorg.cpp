@@ -23,8 +23,9 @@ namespace fs = std::filesystem;
 
 /* Check File Extension Type */
 bool is_supported_image_format(const fs::path &file_path) {
-  std::vector<std::string> supported_extensions = {
-      ".jpg", ".jpeg", ".jfif", ".pjpeg", ".pjp", ".gif", ".png", ".heic"};
+  std::vector<std::string> supported_extensions = {".jpg",   ".jpeg", ".jfif",
+                                                   ".pjpeg", ".pjp",  ".gif",
+                                                   ".png",   ".heic", ".heif"};
   std::string extension = file_path.extension().string();
   std::transform(extension.begin(), extension.end(), extension.begin(),
                  ::tolower);

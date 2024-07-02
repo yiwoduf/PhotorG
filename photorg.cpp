@@ -35,7 +35,7 @@ bool is_supported_image_format(const fs::path &file_path) {
 
 int main() {
   // READ PATH CONFIG
-  std::string path_file = "Path.ini";
+  std::string path_file = "Settings.ini";
   std::string source_folder;
   bool yearly = false, monthly = false, daily = false;
   std::ifstream path_stream(path_file);

@@ -30,32 +30,6 @@ To build the PhotorG program, follow these steps:
 
 This will create an executable file named `photorg` in the current directory.
 
-## Usage
-
-PhotorG uses a configuration file named `Settings.ini` to customize its behavior. You can edit this file to specify the input and output directories, as well as the organization settings.
-
-The `Settings.ini` file has the following structure:
-
-PATH = <path_to_input_directory>
-YEARLY = <true/false>
-MONTHLY = <true/false>
-DAILY = <true/false>
-
-Here's what each setting means:
-
-- `PATH`: The path to the directory containing your photos.
-- `YEARLY`: If set to `true`, photos will be organized into year-based directories.
-- `MONTHLY`: If set to `true`, photos will be organized into month-based directories (in addition to year-based directories if `YEARLY` is also `true`).
-- `DAILY`: If set to `true`, photos will be organized into day-based directories (in addition to year and month-based directories if `YEARLY` and `MONTHLY` are also `true`).
-
-To use the PhotorG program, simply run the following command:
-
-./photorg
-
-The program will read the settings from the `Settings.ini` file and organize your photos accordingly.
-
-## Example
-
 Suppose the `Settings.ini` file contains the following configuration:
 
 PATH = ./Photos
@@ -73,23 +47,23 @@ This will result in a directory structure like this:
 
 ./Photos
 ├── 2023
-│ ├── 01
-│ │ ├── 01
-│ │ ├── 02
-│ │ └── 03
-│ └── 02
-│ ├── 01
-│ ├── 02
-│ └── 03
+│ ├── 2023-01
+│ │ ├── 2023-01-01
+│ │ ├── 2023-01-02
+│ │ └── 2023-01-03
+│ └── 2023-02
+│ ├── 2023-02-01
+│ ├── 2023-02-02
+│ └── 2023-02-03
 └── 2024
-├── 01
-│ ├── 01
-│ ├── 02
-│ └── 03
-└── 02
-├── 01
-├── 02
-└── 03
+├── 2024-01
+│ ├── 2024-01-01
+│ ├── 2024-01-02
+│ └── 2024-01-03
+└── 2024-02
+├── 2024-02-01
+├── 2024-02-02
+└── 2024-02-03
 
 ## Contributing
 

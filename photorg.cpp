@@ -1,3 +1,5 @@
+
+
 /**
  * Jaeyol (Peter) Lee
  *
@@ -13,9 +15,10 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <mutex>
 #include <string>
+#include <thread>
 #include <vector>
-
 namespace fs = std::filesystem;
 
 /* Check File Extension Type */
@@ -77,6 +80,8 @@ int main() {
     }
   }
 
+  auto start_time = std::chrono::high_resolution_clock::now();
+
   // FILE EXTRACT CREATED DATE AND INFO
   std::vector<std::pair<fs::path, std::time_t>> file_times;
   for (const auto &file : files) {
@@ -92,42 +97,79 @@ int main() {
   // CREATE FOLDER BY DATE
   std::sort(file_times.begin(), file_times.end(),
             [](const auto &a, const auto &b) { return a.second < b.second; });
+
+  // Mutex for thread-safe output
+  std::mutex cout_mutex;
+
+  // Define the number of threads to use
+  const int num_threads = 4;
+
+  // Create a vector to store the threads
+  std::vector<std::thread> threads;
+
   size_t total_files = file_times.size();
   size_t moved_files = 0;
-  for (const auto &[file, creation_time] : file_times) {
-    std::tm *local_time = std::localtime(&creation_time);
-    std::string year_folder = std::to_string(local_time->tm_year + 1900);
-    std::string month_folder = std::to_string(local_time->tm_mon + 1);
-    std::string day_folder = std::to_string(local_time->tm_mday);
 
-    fs::path new_folder = fs::path(source_folder);
-    if (yearly) {
-      new_folder /= year_folder;
-      if (!fs::exists(new_folder)) {
-        fs::create_directory(new_folder);
-      }
-    }
-    if (monthly) {
-      new_folder /= year_folder + "-" + month_folder;
-      if (!fs::exists(new_folder)) {
-        fs::create_directory(new_folder);
-      }
-    }
-    if (daily) {
-      new_folder /= year_folder + "-" + month_folder + "-" + day_folder;
-      if (!fs::exists(new_folder)) {
-        fs::create_directory(new_folder);
-      }
-    }
+  // Divide the file_times vector into chunks and process them in parallel
+  for (size_t i = 0; i < num_threads; ++i) {
+    size_t start = i * (total_files / num_threads);
+    size_t end = (i == num_threads - 1) ? total_files
+                                        : (i + 1) * (total_files / num_threads);
 
-    // MOVE FILES TO DIRECTORY
-    fs::path new_file_path = new_folder / file.filename();
-    fs::rename(file, new_file_path);
-    std::cout << "\033[1m[" << ++moved_files << "/" << total_files
-              << "]\033[0m Moved [" << file.filename() << "] to [" << new_folder
-              << "]" << std::endl;
+    threads.emplace_back([&, start, end] {
+      for (size_t j = start; j < end; ++j) {
+        const auto &[file, creation_time] = file_times[j];
+        std::tm *local_time = std::localtime(&creation_time);
+        std::string year_folder = std::to_string(local_time->tm_year + 1900);
+        std::string month_folder = std::to_string(local_time->tm_mon + 1);
+        std::string day_folder = std::to_string(local_time->tm_mday);
+
+        fs::path new_folder = fs::path(source_folder);
+        if (yearly) {
+          new_folder /= year_folder;
+          if (!fs::exists(new_folder)) {
+            fs::create_directory(new_folder);
+          }
+        }
+        if (monthly) {
+          new_folder /= year_folder + "-" + month_folder;
+          if (!fs::exists(new_folder)) {
+            fs::create_directory(new_folder);
+          }
+        }
+        if (daily) {
+          new_folder /= year_folder + "-" + month_folder + "-" + day_folder;
+          if (!fs::exists(new_folder)) {
+            fs::create_directory(new_folder);
+          }
+        }
+
+        // MOVE FILES TO DIRECTORY
+        fs::path new_file_path = new_folder / file.filename();
+        fs::rename(file, new_file_path);
+
+        // Lock the mutex before printing output
+        std::lock_guard<std::mutex> lock(cout_mutex);
+        std::cout << "\033[1m[" << ++moved_files << "/" << total_files
+                  << "]\033[0m Moved [" << file.filename() << "] to ["
+                  << new_folder << "]" << std::endl;
+      }
+    });
   }
+
+  // Wait for all threads to finish
+  for (auto &thread : threads) {
+    thread.join();
+  }
+
   std::cout << "\033[1m\033[32m[COMPLETE] ALL PHOTOS ORGANIZED!\033[0m"
+            << std::endl;
+
+  auto end_time = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                      end_time - start_time)
+                      .count();
+  std::cout << "Program executed in " << duration << " milliseconds."
             << std::endl;
 
   return 0;

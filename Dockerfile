@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Compile the program
-RUN g++ -std=c++17 -o photorg photorg.cpp
+RUN g++ -std=c++17 -o photorg photorg.cpp -lpthread
 
 # Set the entrypoint
 ENTRYPOINT ["./photorg"]

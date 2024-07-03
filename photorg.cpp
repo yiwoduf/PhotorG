@@ -34,8 +34,8 @@ bool is_supported_image_format(const fs::path &file_path) {
 }
 
 /* Printing Directory Structure */
-void print_directory_tree(const fs::path &path,
-                          const std::string &prefix = "") {
+void print_directory_tree(const fs::path &path, const std::string &prefix = "",
+                          const std::string &children_prefix = "") {
   if (fs::is_directory(path)) {
     std::cout << "\033[1;34m" << prefix << path.filename().string() << "\033[0m"
               << std::endl;
@@ -45,9 +45,13 @@ void print_directory_tree(const fs::path &path,
     }
     for (size_t i = 0; i < entries.size(); ++i) {
       if (i < 5 || i == entries.size() - 1) {
-        print_directory_tree(entries[i], prefix + "-----");
+        bool is_last = i == entries.size() - 1;
+        std::string new_prefix = children_prefix + (is_last ? "└── " : "├── ");
+        std::string new_children_prefix =
+            children_prefix + (is_last ? "    " : "│   ");
+        print_directory_tree(entries[i], new_prefix, new_children_prefix);
       } else if (i == 5) {
-        std::cout << prefix << "-----..." << std::endl;
+        std::cout << children_prefix << "├── ..." << std::endl;
       }
     }
   } else {

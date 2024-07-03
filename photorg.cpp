@@ -33,6 +33,20 @@ bool is_supported_image_format(const fs::path &file_path) {
                    extension) != supported_extensions.end();
 }
 
+/* Printing Directory Structure */
+void print_directory_tree(const fs::path &path,
+                          const std::string &prefix = "") {
+  if (fs::is_directory(path)) {
+    std::cout << "\033[1;34m" << prefix << path.filename().string() << "\033[0m"
+              << std::endl;
+    for (const auto &entry : fs::directory_iterator(path)) {
+      print_directory_tree(entry.path(), prefix + "  ");
+    }
+  } else {
+    std::cout << prefix << path.filename().string() << std::endl;
+  }
+}
+
 int main() {
   // READ PATH CONFIG
   std::string path_file = "Settings.ini";
@@ -162,6 +176,8 @@ int main() {
   for (auto &thread : threads) {
     thread.join();
   }
+
+  print_directory_tree(source_folder);
 
   std::cout << "\033[1m\033[32m[COMPLETE] ALL PHOTOS ORGANIZED!\033[0m"
             << std::endl;

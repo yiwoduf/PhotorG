@@ -39,8 +39,16 @@ void print_directory_tree(const fs::path &path,
   if (fs::is_directory(path)) {
     std::cout << "\033[1;34m" << prefix << path.filename().string() << "\033[0m"
               << std::endl;
+    std::vector<fs::path> entries;
     for (const auto &entry : fs::directory_iterator(path)) {
-      print_directory_tree(entry.path(), prefix + "  ");
+      entries.push_back(entry.path());
+    }
+    for (size_t i = 0; i < entries.size(); ++i) {
+      if (i < 5 || i == entries.size() - 1) {
+        print_directory_tree(entries[i], prefix + "-----");
+      } else if (i == 5) {
+        std::cout << prefix << "-----..." << std::endl;
+      }
     }
   } else {
     std::cout << prefix << path.filename().string() << std::endl;

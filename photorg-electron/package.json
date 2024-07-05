@@ -24,5 +24,8 @@
     "mac": {
       "category": "public.app-category.productivity"
     }
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

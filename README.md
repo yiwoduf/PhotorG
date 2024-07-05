@@ -1,9 +1,20 @@
 # PhotorG: Organize Your Photos by Date
 
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 PhotorG is a photo organization tool available as both a C++ command-line program and an Electron-based GUI application. It helps you organize your photos by the date they were created, using multi-threading for efficient processing.
 
 ![PHOTORG](logo.png)
 ![PHOTORG](image.png)
+
+## 🛠️ - Built with
+
+[![C++][C++]][C++-url] [![Electron][Electron]][Electron-url] [![Node.js][Node.js]][Node.js-url] [![npm][npm]][npm-url] [![JavaScript][JavaScript]][JavaScript-url] [![Docker][Docker]][Docker-url]
 
 ## Features
 
@@ -142,6 +153,37 @@ The built applications will be available in the `dist` directory.
 
 If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/yiwoduf/PhotorG).
 
+## Contributor
+
+[ME!](https://github.com/yiwoduf)
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/yiwoduf/PhotorG.svg?style=for-the-badge
+[contributors-url]: https://github.com/yiwoduf/PhotorG/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/yiwoduf/PhotorG.svg?style=for-the-badge
+[forks-url]: https://github.com/yiwoduf/PhotorG/network/members
+[stars-shield]: https://img.shields.io/github/stars/yiwoduf/PhotorG.svg?style=for-the-badge
+[stars-url]: https://github.com/yiwoduf/PhotorG/stargazers
+[issues-shield]: https://img.shields.io/github/issues/yiwoduf/PhotorG.svg?style=for-the-badge
+[issues-url]: https://github.com/yiwoduf/PhotorG/issues
+[license-shield]: https://img.shields.io/github/license/yiwoduf/PhotorG.svg?style=for-the-badge
+[license-url]: https://github.com/yiwoduf/PhotorG/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/yiwoduf/
+[C++]: https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white
+[C++-url]: https://isocpp.org/
+[Electron]: https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white
+[Electron-url]: https://www.electronjs.org/
+[Node.js]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[Node.js-url]: https://nodejs.org/
+[npm]: https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white
+[npm-url]: https://www.npmjs.com/
+[JavaScript]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+[JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[Docker]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/

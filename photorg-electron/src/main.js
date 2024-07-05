@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const photorg = require(path.join(__dirname, "../build/Release/photorg.node"));
 
@@ -16,13 +16,6 @@ function createWindow() {
   });
 
   mainWindow.loadFile("src/index.html");
-
-  // Send the current working directory path to the renderer process
-  mainWindow.webContents.on("did-finish-load", () => {
-    const currentPath = process.cwd();
-    const photosPath = path.join(currentPath, "Photos");
-    mainWindow.webContents.send("app-path", photosPath);
-  });
 
   // Listen for window close event
   mainWindow.on("closed", () => {
@@ -55,4 +48,16 @@ ipcMain.handle(
 
 ipcMain.handle("get-directory-tree", async (event, path) => {
   return photorg.getDirectoryTree(path);
+});
+
+// Add this new handler for selecting a folder
+ipcMain.handle("select-folder", async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ["openDirectory"],
+  });
+  if (result.canceled) {
+    return null;
+  } else {
+    return result.filePaths[0];
+  }
 });

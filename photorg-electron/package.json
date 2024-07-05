@@ -6,8 +6,11 @@
   "scripts": {
     "start": "electron .",
     "install": "node-gyp rebuild",
-    "build": "electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "build": "electron-builder build --mac --win --linux",
+    "build:mac": "electron-builder build --mac",
+    "build:win": "electron-builder build --win",
+    "build:linux": "electron-builder build --linux"
   },
   "author": "Jaeyol (Peter) Lee",
   "license": "MIT",
@@ -23,6 +26,18 @@
     "appId": "com.yiwoduf.photorg",
     "mac": {
       "category": "public.app-category.productivity"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
     }
   },
   "engines": {

@@ -74,10 +74,13 @@
 <body>
     <div class="container">
         <h1>PhotorG - Photo Organizer</h1>
+
         <div class="form-group">
             <label for="sourcePath">Source Folder Path:</label>
-            <input type="text" id="sourcePath" placeholder="Enter the path to your photos folder">
+            <input type="text" id="sourcePath" placeholder="Select a folder" readonly>
+            <button id="selectFolderBtn">Select Folder</button>
         </div>
+
         <div class="form-group">
             <label>
                 <input type="checkbox" id="yearly"> Organize by Year
@@ -99,8 +102,11 @@
     </div>
 
     <script>
-        window.electronAPI.onAppPath((event, appPath) => {
-            document.getElementById('sourcePath').value = appPath;
+        document.getElementById('selectFolderBtn').addEventListener('click', async () => {
+            const path = await window.electronAPI.selectFolder();
+            if (path) {
+                document.getElementById('sourcePath').value = path;
+            }
         });
 
         document.getElementById('organizeBtn').addEventListener('click', async () => {

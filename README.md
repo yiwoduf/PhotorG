@@ -61,7 +61,7 @@ cd PhotorG
 3. Compile the program:
 
 ```bash
-   g++ -std=c++17 -o photorg photorg.cpp -lpthread
+g++ -std=c++17 -o photorg photorg.cpp -lpthread
 ```
 
 4. Run the program:

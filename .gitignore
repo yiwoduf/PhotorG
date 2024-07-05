@@ -2,3 +2,9 @@
 /.vscode
 .DS_Store
 .editorconfig
+/photorg-electron/node_modules
+
+# Build output
+/photorg-electron/build/
+/photorg-electron/dist/
+/photorg-electron/out/

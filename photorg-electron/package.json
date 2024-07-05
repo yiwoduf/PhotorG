@@ -1,0 +1,28 @@
+{
+  "name": "photorg-electron",
+  "version": "1.0.0",
+  "description": "Photo Organizer with Electron frontend and C++ backend",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "install": "node-gyp rebuild",
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": "Jaeyol (Peter) Lee",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.1.0",
+    "electron-builder": "^24.13.3",
+    "node-gyp": "^8.4.1"
+  },
+  "dependencies": {
+    "node-addon-api": "^4.0.0"
+  },
+  "build": {
+    "appId": "com.yiwoduf.photorg",
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  }
+}

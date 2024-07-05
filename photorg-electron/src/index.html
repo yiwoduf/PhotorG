@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotorG - Photo Organizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="checkbox"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            display: inline-block;
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e7e7e7;
+            border-radius: 4px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>PhotorG - Photo Organizer</h1>
+        <div class="form-group">
+            <label for="sourcePath">Source Folder Path:</label>
+            <input type="text" id="sourcePath" placeholder="Enter the path to your photos folder">
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="yearly"> Organize by Year
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="monthly"> Organize by Month
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="daily"> Organize by Day
+            </label>
+        </div>
+        <button id="organizeBtn">Organize Photos</button>
+        <button id="viewTreeBtn">View Directory Tree</button>
+        <div id="result">Hello! Welcome to PhotorG! @yiwoduf</div>
+    </div>
+
+    <script>
+        window.electronAPI.onAppPath((event, appPath) => {
+            document.getElementById('sourcePath').value = appPath;
+        });
+
+        document.getElementById('organizeBtn').addEventListener('click', async () => {
+            const sourcePath = document.getElementById('sourcePath').value;
+            const yearly = document.getElementById('yearly').checked;
+            const monthly = document.getElementById('monthly').checked;
+            const daily = document.getElementById('daily').checked;
+
+            const result = await window.electronAPI.organizePhotos(sourcePath, yearly, monthly, daily);
+            document.getElementById('result').textContent = result ? 'Photos organized successfully!' : 'Failed to organize photos.';
+        });
+
+        document.getElementById('viewTreeBtn').addEventListener('click', async () => {
+            const sourcePath = document.getElementById('sourcePath').value;
+            const tree = await window.electronAPI.getDirectoryTree(sourcePath);
+            document.getElementById('result').textContent = tree.join('\n');
+        });
+    </script>
+</body>
+
+</html>

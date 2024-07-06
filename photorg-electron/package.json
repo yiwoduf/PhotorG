@@ -16,10 +16,14 @@
   "author": "Jaeyol (Peter) Lee",
   "license": "MIT",
   "devDependencies": {
+    "chromedriver": "^126.0.4",
     "electron": "^31.1.0",
     "electron-builder": "^24.13.3",
+    "electron-chromedriver": "^29.4.3",
     "electron-rebuild": "^3.2.9",
-    "node-gyp": "^8.4.1"
+    "mocha": "^10.6.0",
+    "node-gyp": "^8.4.1",
+    "selenium-webdriver": "^4.22.0"
   },
   "dependencies": {
     "node-addon-api": "^4.0.0"

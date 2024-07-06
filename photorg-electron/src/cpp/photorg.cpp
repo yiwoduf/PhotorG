@@ -1,5 +1,3 @@
-
-
 /**
  * Jaeyol (Peter) Lee
  *
@@ -10,6 +8,7 @@
  * PhotorG - Photo Organizaer
  */
 // photorg.cpp
+
 #include "photorg.h"
 #include <algorithm>
 #include <chrono>
